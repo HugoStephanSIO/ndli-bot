@@ -20,14 +20,17 @@ io.sockets.on('connection', function (socket, pseudo) {
     socket.on('message', function (message) {
         message = ent.encode(message);
         socket.broadcast.emit('message', {pseudo: socket.pseudo, message: message});
+    });
+
+	socket.on('get_response', function (message) {
 		response = answerNoob(message);
-		socket.broadcast.emit('message', {pseudo: "chatbot", message: "test"});
-    }); 
+		socket.emit('message', {pseudo: 'chatbot', message: response});
+	});
 });
 
 function answerNoob(msg)
 {
-	return "ton message est nul !";
+	return "ton message est nul mec !";
 }
 server.listen(8080);
 console.log("test");
