@@ -1,12 +1,13 @@
 {
   "name": "ndli-chatbot",
-  "version": "1.0.0-SNAPSHOT",
-  "description": "",
+  "version": "1.0.0",
+  "description": "Nuit de l'info Chatbot",
   "main": "index.js",
   "dependencies": {
-    "express": "^4.14.0",
-    "morgan": "^1.8.2"
+    "express": "~3.3.4",
+    "socket.io": "~1.2.1",
+    "ent": "~0.1.0"
   },
   "devDependencies": {},
-  "author": "Les Indécis"
+  "author": "Nuit de l'info P12"
 }

@@ -1,13 +1,33 @@
-const express = require('express');
-const morgan = require('morgan');;
+var app = require('express')(),
+    server = require('http').createServer(app),
+    io = require('socket.io').listen(server),
+    ent = require('ent') // Permet de bloquer les caractères HTML (sécurité équivalente à htmlentities en PHP)
 
-const app = express();
-app.use(morgan('combined'));
-
-app.get('/', (req, res) => {
-	res.sendFile(__dirname + '/heartbeat.json')
+// Chargement de la page index.html
+app.get('/', function (req, res) {
+  res.sendfile(__dirname + '/index.html');
 });
 
-var listener = app.listen(process.env.PORT || 8080, function() {
- console.log('listening on port ' + listener.address().port);
+io.sockets.on('connection', function (socket, pseudo) {
+    // Dès qu'on nous donne un pseudo, on le stocke en variable de session et on informe les autres personnes
+    socket.on('nouveau_client', function(pseudo) {
+        pseudo = ent.encode(pseudo);
+        socket.pseudo = pseudo;
+        socket.broadcast.emit('nouveau_client', pseudo);
+    });
+
+    // Dès qu'on reçoit un message, on récupère le pseudo de son auteur et on le transmet aux autres personnes
+    socket.on('message', function (message) {
+        message = ent.encode(message);
+        socket.broadcast.emit('message', {pseudo: socket.pseudo, message: message});
+		response = answerNoob(message);
+		socket.broadcast.emit('message', {pseudo: "chatbot", message: "test"});
+    }); 
 });
+
+function answerNoob(msg)
+{
+	return "ton message est nul !";
+}
+server.listen(8080);
+console.log("test");
