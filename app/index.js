@@ -28,9 +28,9 @@ io.sockets.on('connection', function (socket, pseudo) {
 		response = helper.needAnswer(socket.pseudo, message);
 
 		helper.saveMessage(socket.pseudo, message, "received") ;
-		helper.saveMessage(socket.pseudo, encodeURIComponent(response), "sent") ;
+		//helper.saveMessage(socket.pseudo, encodeURIComponent(response), "sent") ;
 		helper.loadDB();
-		
+
 		socket.emit('message', {pseudo: 'chatbot', message: response});
 		socket.broadcast.emit('message', {pseudo: 'chatbot', message: response});
 	});

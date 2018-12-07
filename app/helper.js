@@ -76,7 +76,7 @@ exports.saveMessage = async function(pseudo, message, kind) {
 // Looking for best answer possible 
 exports.needAnswer = function(pseudo, msg)
 {
-	var ret = "Je n'arrive pas à décrypter ce que vous racontez... Corrigez vos fautes d'orthographe ou essayez ici : " + exports.createSearchLink(msg) + "." ;
+	var ret = "Je n'arrive pas à décrypter ce que vous racontez... Corrigez vos fautes d'orthographe ou <a href='"+exports.createSearchLink(msg)+"'>essayez ici.</a>"; //+ exports.createSearchLink(msg) + "." ;
 	var tmp = [] ;
 	var priority = 0 ;
 	var matches_asso = exports.searchForKeywords(msg) ;
@@ -107,7 +107,7 @@ exports.needAnswer = function(pseudo, msg)
 		
 		if(matches_trigger.length > 0 && priority < matches_trigger[0].priority)
 		{
-			ret = "Hum je pense pas pouvoir vous être d'une grande aide... Mais essayez ça par exemple : "+exports.createSearchLink(matches_trigger[0].search)+"." ;
+			ret = "Je n'arrive pas à décrypter ce que vous racontez... Corrigez vos fautes d'orthographe ou <a href='"+exports.createSearchLink(msg)+"'>essayez ici.</a>"; //+ exports.createSearchLink(msg) + "." ;
 			priority = matches_asso[0].priority ;
 		}
 	}
