@@ -4,9 +4,10 @@
   "description": "Nuit de l'info Chatbot",
   "main": "index.js",
   "dependencies": {
+    "ent": "~0.1.0",
     "express": "~3.3.4",
     "socket.io": "~1.2.1",
-    "ent": "~0.1.0"
+    "sqlite3": "^4.0.0"
   },
   "devDependencies": {},
   "author": "Nuit de l'info P12"

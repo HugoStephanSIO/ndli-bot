@@ -1,3 +1,5 @@
+const helper = require('./helper.js');
+
 var app = require('express')(),
     server = require('http').createServer(app),
     io = require('socket.io').listen(server),
@@ -18,19 +20,27 @@ io.sockets.on('connection', function (socket, pseudo) {
 
     // Dès qu'on reçoit un message, on récupère le pseudo de son auteur et on le transmet aux autres personnes
     socket.on('message', function (message) {
-        message = ent.encode(message);
+		if(socket.pseudo != "chatbot") message = ent.encode(message);
         socket.broadcast.emit('message', {pseudo: socket.pseudo, message: message});
     });
 
 	socket.on('get_response', function (message) {
-		response = answerNoob(message);
+		response = helper.needAnswer(socket.pseudo, message);
+
+		helper.saveMessage(socket.pseudo, message, "received") ;
+		helper.saveMessage(socket.pseudo, encodeURIComponent(response), "sent") ;
+		helper.loadDB();
+		
 		socket.emit('message', {pseudo: 'chatbot', message: response});
+		socket.broadcast.emit('message', {pseudo: 'chatbot', message: response});
 	});
 });
 
-function answerNoob(msg)
-{
-	return "ton message est nul mec !";
-}
 server.listen(8080);
-console.log("test");
+start();
+
+async function start()
+{
+	await helper.initDB();
+	await helper.loadDB();
+}
